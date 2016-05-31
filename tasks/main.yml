@@ -1,0 +1,39 @@
+---
+- name: create ssh group
+  group: name=ssh-user state=present
+  become: yes
+- name: create ansible group
+  group: name=ansible state=present
+  become: true
+- name: create management user
+  user: >
+    name=ansible
+    comment=management
+    groups=ssh-user,ansible
+  become: true
+- name: allow vagrant ssh connections
+  become: yes
+  user: >
+    name=vagrant
+    groups=ssh-user
+    append=yes
+  when: ansible_virtualization_type == "virtualbox"
+- name: ansible in sudoers
+  copy: >
+    src=ansible-sudo
+    dest=/etc/sudoers.d/ansible-sudo
+    owner=root
+    group=root
+    mode=0600
+    validate="visudo -cf %s"
+  become: true
+- name: create ssh key for ansible
+  shell: "{{ ssh_keygen_command }}"
+  delegate_to: localhost
+  args:
+    creates: "{{ ssh_pubkey }}"
+- name: install ssh key for ansible
+  become: true
+  authorized_key: user=ansible
+                  key="{{ lookup('file', 'id.pub') }}"
+                  manage_dir=yes
