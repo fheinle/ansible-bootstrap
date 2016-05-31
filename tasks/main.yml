@@ -1,17 +1,17 @@
 ---
-- name: create ssh group
-  group: name=ssh-user state=present
-  become: yes
 
-- name: create ansible group
-  group: name=ansible state=present
+- name: create ssh group
   become: true
+  group:
+    name="ssh-user"
+    state=present
 
 - name: create management user
   user: >
     name=ansible
     comment=management
-    groups=ssh-user,ansible
+    group=users
+    groups=ssh-user,adm,sudo
   become: true
 
 - name: allow vagrant ssh connections
