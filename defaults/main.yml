@@ -1,4 +1,4 @@
 ---
 ssh_key_format: ed25519
-ssh_pubkey: roles/bootstrap/files/id
-ssh_keygen_command: "ssh-keygen -t {{ ssh_key_format }} -N '' -f {{ ssh_pubkey }}"
+ssh_keyfile: authorized_keys/ansible
+ssh_keygen_command: "ssh-keygen -t {{ ssh_key_format }} -N '' -f {{ ssh_keyfile }}"

@@ -36,7 +36,7 @@
   shell: "{{ ssh_keygen_command }}"
   delegate_to: localhost
   args:
-    creates: "{{ ssh_pubkey }}"
+    creates: "{{ ssh_keyfile }}"
 
 - name: install ssh key for ansible
   become: true
