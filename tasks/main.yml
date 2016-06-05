@@ -12,6 +12,7 @@
     comment=management
     group=users
     groups=ssh-user,adm,sudo
+    state=present
   become: true
 
 - name: allow vagrant ssh connections
@@ -20,6 +21,7 @@
     name=vagrant
     groups=ssh-user
     append=yes
+    state=present
   when: ansible_virtualization_type == "virtualbox"
 
 - name: ansible in sudoers
