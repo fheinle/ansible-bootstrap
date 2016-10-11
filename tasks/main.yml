@@ -43,5 +43,5 @@
 - name: install ssh key for ansible
   become: true
   authorized_key: user=ansible
-                  key="{{ lookup('file', 'id.pub') }}"
+                  key="{{ lookup('file', ssh_keyfile +'.pub') }}"
                   manage_dir=yes
